@@ -2,7 +2,9 @@ let RATPApi = require('../build/api');
 let api;
 let expect = require('chai').expect;
 
-describe('api', () => {
+describe('api', function () {
+  this.timeout(10000);
+
   before(function (done) {
     api = new RATPApi('rers', 'A');
     api.on('ready', function () {

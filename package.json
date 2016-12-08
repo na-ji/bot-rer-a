@@ -4,7 +4,8 @@
   "description": "Chat bot with RER A",
   "main": "src/bot.js",
   "scripts": {
-    "test": "mocha ./tests/api.js",
+    "test": "mocha './tests/**/*.test.js'",
+    "coverage": "istanbul cover _mocha -- './tests/**/*.test.js'",
     "watch": "babel --watch=./src --out-dir=./build"
   },
   "bin": {
