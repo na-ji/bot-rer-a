@@ -4,6 +4,8 @@
 let Wit = require('node-wit').Wit;
 let interactive = require('node-wit').interactive;
 let _ = require('lodash');
+let RATPApi = require('./api');
+let api = new RATPApi('rers', 'A');
 
 const accessToken = (() => {
   if (process.argv.length !== 3) {

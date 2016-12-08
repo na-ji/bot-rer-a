@@ -4,5 +4,8 @@
     "stage-0"
   ],
   "comments": true,
-  "sourceMaps": false
+  "sourceMaps": false,
+  "plugins": [
+    "transform-flow-strip-types"
+  ]
 }
