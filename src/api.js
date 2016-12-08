@@ -4,12 +4,14 @@
 let request = require('request');
 let _ = require('lodash');
 const apiURL = 'https://api-ratp.pierre-grimaud.fr/v2/';
+let events = require('events');
 
-class RATPApi {
+class RATPApi extends events.EventEmitter {
   typeLigne: string;
   line: string;
   destinations: Array<Object>;
   stations: Array<Object>;
+  ready: Function;
 
   fetchStations () : void {
     let self = this;
@@ -23,6 +25,7 @@ class RATPApi {
       } else {
         throw new Error('stations not found');
       }
+      self.ready();
     });
   }
 
@@ -38,14 +41,24 @@ class RATPApi {
       } else {
         throw new Error('line not found');
       }
+      self.ready();
     });
   }
 
+  // getSchedule (origin: string, destination: string) : Object {
+  // }
+
   constructor (typeLigne: string, line: string) {
+    super();
     this.typeLigne = typeLigne;
     this.line = line;
     this.destinations = [];
     this.stations = [];
+
+    let self = this;
+    this.ready = _.after(2, function () {
+      self.emit('ready');
+    });
 
     this.fetchDestinations();
     this.fetchStations();
