@@ -1,0 +1,39 @@
+{
+  "name": "bot-rer-a",
+  "version": "1.0.0",
+  "description": "Chat bot with RER A",
+  "main": "src/bot.js",
+  "scripts": {
+    "test": "mocha ./tests/tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/na-ji/bot-rer-a.git"
+  },
+  "keywords": [
+    "bot",
+    "wit",
+    "rer"
+  ],
+  "semistandard": {
+    "parser": "babel-eslint",
+    "plugins": [
+      "flowtype"
+    ]
+  },
+  "author": "Naji Astier <naji.astier@gmail.com> (https://www.naji-astier.com)",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/na-ji/bot-rer-a/issues"
+  },
+  "homepage": "https://github.com/na-ji/bot-rer-a#readme",
+  "dependencies": {
+    "lodash": "^4.17.2",
+    "node-wit": "^4.2.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "eslint": "^3.11.1",
+    "eslint-plugin-flowtype": "^2.29.1"
+  }
+}
