@@ -5,11 +5,13 @@
   "main": "src/bot.js",
   "scripts": {
     "test": "mocha './tests/**/*.test.js'",
-    "coverage": "istanbul cover _mocha -- './tests/**/*.test.js'",
+    "coverage": "istanbul cover _mocha --report lcovonly -- './tests/**/*.test.js' && cat ./coverage/lcov.info | COVERALLS_REPO_TOKEN=Mp1OWFxAaeTFKxsnij1bVr0cZWIg10ELw ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "watch": "babel --watch=./src --out-dir=./build"
   },
   "bin": {
-    "mocha": "./node_modules/.bin/mocha"
+    "mocha": "./node_modules/.bin/mocha",
+    "_mocha": "./node_modules/.bin/_mocha",
+    "babel": "./node_modules/.bin/babel"
   },
   "repository": {
     "type": "git",
@@ -50,8 +52,10 @@
     "babel-preset-stage-0": "^6.16.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
+    "coveralls": "^2.11.15",
     "eslint": "^3.11.1",
     "eslint-plugin-flowtype": "^2.29.1",
-    "mocha": "^3.2.0"
+    "mocha": "^3.2.0",
+    "mocha-lcov-reporter": "^1.2.0"
   }
 }
