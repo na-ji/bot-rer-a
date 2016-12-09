@@ -29,21 +29,47 @@ const firstEntityValue = (entities, entity) => {
 
 const actions = {
   send (request, response) {
-    const {sessionId, context, entities} = request;
-    const {text, quickreplies} = response;
-    console.log('sending...', JSON.stringify(response));
+    // const {sessionId, context, entities} = request;
+    const {text} = response;
+    console.log(text);
   },
   getSchedule ({context, entities}) {
-    var origin : null = firstEntityValue(entities, 'origin');
-    var direction = firstEntityValue(entities, 'direction');
-    if (origin && direction) {
-      context.schedule = '{schedule}';
-      delete context.missingDirection;
-    } else {
-      context.missingDirection = true;
-      delete context.schedule;
-    }
-    return context;
+    return new Promise(function (resolve, reject) {
+      var origin : null = firstEntityValue(entities, 'origin');
+      var direction = firstEntityValue(entities, 'direction');
+      if (origin && direction) {
+        try {
+          api.getSchedule(origin, direction)
+          .then(function (response: Object) {
+            context.origin = response.origin.name;
+            context.direction = response.direction.name;
+            context.schedule = '';
+
+            _.forEach(response.schedules, function (schedule) {
+              if (schedule.message.indexOf('Train sans arrêt') < 0) {
+                let hour = schedule.message.match(/(\d{1,2}:\d{1,2})/i);
+                if (hour) {
+                  context.schedule += ` \n - ${hour[1]} - ${schedule.destination}`;
+                }
+              }
+            });
+
+            delete context.missingDirection;
+            return resolve(context);
+          }).catch(function (error) {
+            console.log(error);
+            return reject(context);
+          });
+        } catch (exception) {
+          console.log(exception);
+          return reject(context);
+        }
+      } else {
+        context.missingDirection = true;
+        delete context.schedule;
+        return resolve(context);
+      }
+    });
   }
 };
 
