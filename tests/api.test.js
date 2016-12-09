@@ -32,8 +32,9 @@ describe('api', function () {
   describe('getSchedule', () => {
     it('should return schedules', function (done) {
       api.getSchedule('bussy st georges', 'marne la valée chessy').then(result => {
-        expect(result).to.be.an('array');
+        expect(result).to.be.an('object');
         expect(result).not.to.be.empty;
+        expect(result.schedules).to.be.an('array');
         done();
       }).catch(error => {
         expect(error).to.be.empty;

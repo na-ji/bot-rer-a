@@ -45,7 +45,7 @@ class RATPApi extends events.EventEmitter {
     });
   }
 
-  getSchedule (origin: string, destination: string) : Promise<Array<Object>> {
+  getSchedule (origin: string, destination: string) : Promise<Object> {
     // we try to find the SLUG of the origin and destination
     let oRequest: Array<string> = origin.trim().toLowerCase().replace(/ +/, ' ').split(' ');
     let dRequest: Array<string> = destination.trim().toLowerCase().replace(/ +/, ' ').split(' ');
@@ -92,7 +92,7 @@ class RATPApi extends events.EventEmitter {
       });
 
       request.get({
-        url: apiURL + `${self.typeLigne}/${self.line}/stations/${foundOrigin.slug}?destination=${foundDestination.slug}`,
+        url: apiURL + `${self.typeLigne}/${self.line}/stations/${foundOrigin.id}?destination=${foundDestination.id}`,
         json: true
       }, function (error, httpResponse, body: Object) {
         if (error) {
@@ -100,7 +100,11 @@ class RATPApi extends events.EventEmitter {
         }
 
         if (body.response.schedules) {
-          resolve(body.response.schedules);
+          resolve({
+            origin: foundOrigin,
+            direction: foundDestination,
+            schedules: body.response.schedules
+          });
         } else {
           reject(new Error('schedules not found'));
         }
